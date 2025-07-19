@@ -9,7 +9,7 @@ def query_books_by_author():
 
 # 2. List all books in a library
 def list_books_in_library(library_name):
-    library = Library.objects.get(name=library_name)  # ✅ This is the line the checker wants
+    library = Library.objects.get(name=library_name)
     books = library.books.all()
     for book in books:
         print(book.title)
