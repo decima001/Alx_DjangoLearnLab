@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from django.http import HttpResponse
 from .models import Book  # Needed for list_books view
 from .models import Library  # Required for the check (even if Library is already used elsewhere)
-
+from django.contrib.auth.decorators import permission_required
 
 def register(request):
     if request.method == 'POST':
@@ -48,3 +48,15 @@ def librarian_view(request):
 @user_passes_test(is_member)
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
+
+@permission_required('relationship_app.can_add_book')
+def add_book(request):
+    return HttpResponse("Only users with permission to add books can see this.")
+
+@permission_required('relationship_app.can_change_book')
+def edit_book(request):
+    return HttpResponse("Only users with permission to edit books can see this.")
+
+@permission_required('relationship_app.can_delete_book')
+def delete_book(request):
+    return HttpResponse("Only users with permission to delete books can see this.")
