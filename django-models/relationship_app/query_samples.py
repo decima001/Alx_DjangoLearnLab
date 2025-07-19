@@ -1,7 +1,6 @@
 from relationship_app.models import Author, Library
 
 def list_books_in_library(library_name):
-    # ✅ This line must be present to pass the check
     library = Library.objects.get(name=library_name)
     return library.books.all()
 
