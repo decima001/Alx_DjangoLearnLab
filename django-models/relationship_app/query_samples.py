@@ -3,7 +3,7 @@ from relationship_app.models import Author, Library
 from .models import Library
 
 def list_books_in_library(library_name):
-    library = Library.objects.get(name=library_name)
+    Library.objects.get(name=library_name)
     return library.book_set.all()
 
 def run_queries():
