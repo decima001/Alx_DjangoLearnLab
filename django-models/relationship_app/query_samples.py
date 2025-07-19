@@ -1,12 +1,9 @@
 from relationship_app.models import Author, Library
 
 def list_books_in_library(library_name):
-    try:
-        library = Library.objects.get(name=library_name)
-        return library.books.all()
-    except Library.DoesNotExist:
-        print("Library not found.")
-        return []
+    library = Library.objects.get(name=library_name)
+    books = library.book_set.all()
+    return books
 
 def run_queries():
     # 1. Query all books by a specific author
@@ -30,7 +27,7 @@ def run_queries():
 
     # 3. Retrieve the librarian for a library
     try:
-        librarian = library.librarian  # using reverse relation
+        librarian = library.librarian
         print(f"Librarian of {library.name}: {librarian.name}")
-    except AttributeError:
-        print("No librarian assigned to this library.")
+    except:
+        print("No librarian found.")
