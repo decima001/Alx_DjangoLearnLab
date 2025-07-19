@@ -1,5 +1,10 @@
 from relationship_app.models import Author, Library
 
+def list_books_in_library(library_name):
+    library = Library.objects.get(name=library_name)
+    books = library.book_set.all()
+    return books
+
 def run_queries():
     # 1. Query all books by a specific author
     try:
