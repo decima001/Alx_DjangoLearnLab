@@ -1,7 +1,26 @@
 from pathlib import Path
 import os
 
-DEBUG = False  # ⚠️ Always set to False in production
+# SECURITY SETTINGS FOR PRODUCTION
+
+# Enforce HTTPS by redirecting all HTTP requests
+SECURE_SSL_REDIRECT = True  # Ensures all traffic is forced to HTTPS
+
+# HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply to subdomains
+SECURE_HSTS_PRELOAD = True  # Allow site to be added to browser preload list
+
+# Tell the browser not to guess content types (helps prevent XSS)
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable browser’s built-in XSS filtering
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent site from being rendered inside a frame (protects against clickjacking)
+X_FRAME_OPTIONS = 'DENY'
+
+DEBUG = False  # Always set to False in production
 ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1']
 
 # Security Middleware
