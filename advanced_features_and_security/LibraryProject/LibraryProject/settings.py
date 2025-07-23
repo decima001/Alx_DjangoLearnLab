@@ -55,7 +55,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'accounts.CustomUser'  # if you use a custom user model
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = []
 
