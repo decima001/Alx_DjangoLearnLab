@@ -3,6 +3,9 @@ import os
 
 # SECURITY SETTINGS FOR PRODUCTION
 
+# Trust the X-Forwarded-Proto header set by your proxy to determine HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Enforce HTTPS by redirecting all HTTP requests
 SECURE_SSL_REDIRECT = True  # Ensures all traffic is forced to HTTPS
 
