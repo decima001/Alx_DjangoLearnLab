@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+nhiu%7jwu(ah$^26f(ioci1y#v)hd8vv1u9++sodk3i(-+enf'
+SECRET_KEY = 'django-insecure-9y@k(aj5y97w9pt!vxg=$2!5nrik8$7ixj6_uq4g#o*!--e9j&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'LibraryProject.relationship_app',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,13 +51,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+# Authentication settings - consolidated and corrected
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'  # Redirects to home after login
+LOGOUT_REDIRECT_URL = '/login/'  # Redirects to login after logout
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
