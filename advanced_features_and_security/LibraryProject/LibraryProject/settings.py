@@ -55,7 +55,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = []
 
