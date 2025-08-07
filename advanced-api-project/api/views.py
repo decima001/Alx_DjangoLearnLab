@@ -75,3 +75,15 @@ class BookListView(generics.ListAPIView):
 
     # Fields to allow ordering
     ordering_fields = ['title', 'publication_year']
+
+
+
+# BookListView supports filtering, searching, and ordering:
+# - Filtering by: title, publication_year, author
+# - Searching on: title, author name (case-insensitive)
+# - Ordering by: title, publication_year (asc or desc using - prefix)
+#
+# Examples:
+# /api/books/?title=1984
+# /api/books/?search=Achebe
+# /api/books/?ordering=-publication_year
