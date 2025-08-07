@@ -88,3 +88,6 @@ class BookAPITestCase(APITestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+# Test that the list endpoint returns 200 and includes at least one book
