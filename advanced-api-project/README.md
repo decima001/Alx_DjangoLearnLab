@@ -29,3 +29,16 @@
 - **Method**: DELETE
 - **Access**: Authenticated users only
 - **Description**: Deletes a book.
+
+## API Query Features
+
+### 🔍 Filtering
+- `/api/books/?title=Things Fall Apart`
+- `/api/books/?author=1`
+
+### 🔍 Searching
+- `/api/books/?search=achebe`
+
+### 🔃 Ordering
+- `/api/books/?ordering=title`
+- `/api/books/?ordering=-publication_year`
