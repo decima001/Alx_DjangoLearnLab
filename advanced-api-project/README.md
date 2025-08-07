@@ -42,3 +42,11 @@
 ### 🔃 Ordering
 - `/api/books/?ordering=title`
 - `/api/books/?ordering=-publication_year`
+
+## 🧪 API Testing Instructions
+
+### Running Tests
+Run the following command from your project root:
+
+```bash
+python manage.py test api
