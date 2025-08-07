@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from .models import Book
 from .serializers import BookSerializer
+from rest_framework import filters
 
 # ListView - Get all books
 class BookListView(generics.ListAPIView):
@@ -37,3 +38,23 @@ class BookDeleteView(generics.DestroyAPIView):
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticated]
 # Create your views here.
+
+class BookCreateView(generics.CreateAPIView):
+    ...
+    def perform_create(self, serializer):
+        # Example of adding extra logic: logging, user tracking, etc.
+        serializer.save()
+
+class BookUpdateView(generics.UpdateAPIView):
+    ...
+    def perform_update(self, serializer):
+        # You can track updates or validate something before save
+        serializer.save()
+
+class BookListView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    search_fields = ['title']
+    ordering_fields = ['publication_year']
