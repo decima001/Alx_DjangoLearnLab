@@ -5,6 +5,7 @@ from .serializers import BookSerializer
 from rest_framework import filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework import generics, permissions, filters
+from django_filters import rest_framework
 from django_filters.rest_framework import DjangoFilterBackend
 
 # ListView - Get all books
