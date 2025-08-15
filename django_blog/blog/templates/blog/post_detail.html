@@ -10,3 +10,38 @@
 {% endif %}
 <a href="{% url 'post_list' %}">Back to Posts</a>
 {% endblock %}
+
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>{{ post.title }}</h2>
+<p>{{ post.content }}</p>
+<p><small>By {{ post.author }} on {{ post.published_date }}</small></p>
+
+<hr>
+<h3>Comments</h3>
+{% for comment in comments %}
+    <div>
+        <p>{{ comment.content }}</p>
+        <small>By {{ comment.author }} on {{ comment.created_at }}</small>
+        {% if comment.author == user %}
+            <a href="{% url 'comment_edit' comment.pk %}">Edit</a> |
+            <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No comments yet. Be the first to comment!</p>
+{% endfor %}
+
+<hr>
+{% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to comment.</p>
+{% endif %}
+{% endblock %}
