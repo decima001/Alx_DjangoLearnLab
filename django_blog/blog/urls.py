@@ -22,5 +22,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(template_name='blog/logout.html'), name='logout'),
     path('register/', register_view, name='register'),
     path('profile/', profile_view, name='profile'),
-    
+    path('post/<int:pk>/', views.post_detail, name='post_detail'),
+    path('comment/<int:pk>/edit/', views.comment_edit, name='comment_edit'),
+    path('comment/<int:pk>/delete/', views.comment_delete, name='comment_delete'),
 ]
