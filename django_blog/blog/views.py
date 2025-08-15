@@ -102,7 +102,6 @@ def post_detail(request, pk):
 
     return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments, 'form': form})
 
-
 @login_required
 def comment_edit(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
@@ -118,7 +117,6 @@ def comment_edit(request, pk):
         form = CommentForm(instance=comment)
 
     return render(request, 'blog/comment_edit.html', {'form': form})
-
 
 @login_required
 def comment_delete(request, pk):
