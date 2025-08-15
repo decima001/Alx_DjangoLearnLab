@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Post, Tag
+from taggit.forms import TagWidget
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -15,6 +16,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content']  # Author will be set automatically
+        widgets = {
+            'tags': TagWidget(),  # ← Use TagWidget for tag input
+        }
 
 class CommentForm(forms.ModelForm):
     class Meta:
