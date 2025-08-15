@@ -11,7 +11,7 @@
         <p>{{ comment.content }}</p>
         <small>By {{ comment.author }} on {{ comment.created_at }}</small>
         {% if comment.author == user %}
-            <a href="{% url 'comment_edit' comment.pk %}">Edit</a> |
+            <a href="{% url 'comment_update' comment.pk %}">Edit</a> |
             <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
         {% endif %}
     </div>
