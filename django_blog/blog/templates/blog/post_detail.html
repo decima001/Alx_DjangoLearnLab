@@ -1,19 +1,4 @@
-{% extends "blog/base.html" %}
-{% block content %}
-<h2>{{ post.title }}</h2>
-<p>{{ post.content }}</p>
-<small>By {{ post.author }} on {{ post.published_date }}</small>
-
-{% if user == post.author %}
-    <a href="{% url 'post_update' post.pk %}">Edit</a>
-    <a href="{% url 'post_delete' post.pk %}">Delete</a>
-{% endif %}
-<a href="{% url 'post_list' %}">Back to Posts</a>
-{% endblock %}
-
 {% extends 'blog/base.html' %}
-{% load static %}
-
 {% block content %}
 <h2>{{ post.title }}</h2>
 <p>{{ post.content }}</p>
@@ -31,17 +16,17 @@
         {% endif %}
     </div>
 {% empty %}
-    <p>No comments yet. Be the first to comment!</p>
+    <p>No comments yet.</p>
 {% endfor %}
 
 <hr>
 {% if user.is_authenticated %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Post Comment</button>
-    </form>
+<form action="{% url 'comment_create' post.pk %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post Comment</button>
+</form>
 {% else %}
-    <p><a href="{% url 'login' %}">Log in</a> to comment.</p>
+<p><a href="{% url 'login' %}">Log in</a> to comment.</p>
 {% endif %}
 {% endblock %}
