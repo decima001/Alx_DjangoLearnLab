@@ -1,21 +1,29 @@
+# accounts/models.py
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class User(AbstractUser):
-    # Your custom fields go here
 
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='accounts_user_groups', # <-- Add this line
+def profile_upload_path(instance, filename):
+    return f"profiles/user_{instance.id}/{filename}"
+
+
+class User(AbstractUser):
+    bio = models.TextField(blank=True)  # User biography
+    profile_picture = models.ImageField(
+        upload_to=profile_upload_path, blank=True, null=True
+    )  # Profile picture upload
+    followers = models.ManyToManyField(
+        "self",
+        symmetrical=False,
+        related_name="following",
         blank=True,
-        help_text=('The groups this user belongs to. A user will get all permissions '
-                   'granted to each of their groups.'),
-        related_query_name='user',
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='accounts_user_permissions', # <-- Add this line
-        blank=True,
-        help_text='Specific permissions for this user.',
-        related_query_name='user',
-    )
+    )  # Self-referential ManyToMany for following system
+
+    def followers_count(self):
+        return self.followers.count()
+
+    def following_count(self):
+        return self.following.count()
+
+    def __str__(self):
+        return self.username
