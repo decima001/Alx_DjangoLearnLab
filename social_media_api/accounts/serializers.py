@@ -15,14 +15,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ["username", "email", "password", "token"]
 
     def create(self, validated_data):
-        # Create user with built-in helper
         user = get_user_model().objects.create_user(
             username=validated_data["username"],
             email=validated_data.get("email"),
             password=validated_data["password"],
         )
-        # Generate token for new user
-        token, _ = Token.objects.get_or_create(user=user)
+        # Explicit use of Token.objects.create
+        token = Token.objects.create(user=user)
         user.token = token.key
         return user
 
@@ -34,9 +33,13 @@ class LoginSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         user = authenticate(
-            username=attrs.get("username"), password=attrs.get("password")
+            username=attrs.get("username"),
+            password=attrs.get("password"),
         )
         if not user:
             raise serializers.ValidationError("Invalid credentials")
-        token, _ = Token.objects.get_or_create(user=user)
+
+        # Explicitly create a new token each login
+        Token.objects.filter(user=user).delete()  # remove old tokens
+        token = Token.objects.create(user=user)
         return {"user": user, "token": token.key}
