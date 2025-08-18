@@ -8,16 +8,10 @@ def profile_upload_path(instance, filename):
 
 
 class User(AbstractUser):
-    bio = models.TextField(blank=True)  # User biography
-    profile_picture = models.ImageField(
-        upload_to=profile_upload_path, blank=True, null=True
-    )  # Profile picture upload
-    followers = models.ManyToManyField(
-        "self",
-        symmetrical=False,
-        related_name="following",
-        blank=True,
-    )  # Self-referential ManyToMany for following system
+    bio = models.TextField(blank=True, null=True)  # User biography
+    profile_picture = models.ImageField(upload_to="profile_pics/", blank=True, null=True)  # Profile picture upload
+    followers = models.ManyToManyField("self", symmetrical=False, related_name="followed_by", blank=True)  # Self-referential ManyToMany for following system
+    following = models.ManyToManyField("self", symmetrical=False, related_name="follows", blank=True)
 
     def followers_count(self):
         return self.followers.count()
