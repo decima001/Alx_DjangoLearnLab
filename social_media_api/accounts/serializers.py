@@ -1,46 +1,42 @@
 # accounts/serializers.py
-from django.contrib.auth import authenticate
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
 
-class UserPublicSerializer(serializers.ModelSerializer):
-    followers_count = serializers.IntegerField(source='followers_count', read_only=True)
-    following_count = serializers.IntegerField(source='following_count', read_only=True)
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers_count', 'following_count']
-        read_only_fields = ['id', 'email', 'followers_count', 'following_count']
-
-
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
+    token = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ["username", "email", "password", "token"]
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        # Create user with built-in helper
+        user = get_user_model().objects.create_user(
+            username=validated_data["username"],
+            email=validated_data.get("email"),
+            password=validated_data["password"],
+        )
+        # Generate token for new user
+        token, _ = Token.objects.get_or_create(user=user)
+        user.token = token.key
+        return user
 
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
+    token = serializers.CharField(read_only=True)
 
     def validate(self, attrs):
-        user = authenticate(username=attrs['username'], password=attrs['password'])
+        user = authenticate(
+            username=attrs.get("username"), password=attrs.get("password")
+        )
         if not user:
-            raise serializers.ValidationError('Invalid credentials')
-        attrs['user'] = user
-        return attrs
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'bio', 'profile_picture']
-        read_only_fields = ['email']
+            raise serializers.ValidationError("Invalid credentials")
+        token, _ = Token.objects.get_or_create(user=user)
+        return {"user": user, "token": token.key}
