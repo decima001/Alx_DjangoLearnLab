@@ -1,7 +1,6 @@
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from .models import CustomUser, Post
+from .models import Post
 from .serializers import PostSerializer
 
 class FollowUserView(generics.GenericAPIView):
