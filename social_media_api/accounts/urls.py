@@ -6,6 +6,7 @@ from rest_framework.routers import DefaultRouter
 from .views import UserViewSet
 from .views import PostViewSet
 from .views import FollowUserView, UnfollowUserView
+from .views import FeedView
 
 router = DefaultRouter()
 router.register("users", UserViewSet)
@@ -18,4 +19,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("follow/<int:user_id>/", FollowUserView.as_view(), name="follow-user"),
     path("unfollow/<int:user_id>/", UnfollowUserView.as_view(), name="unfollow-user"),
+    path("feed/", FeedView.as_view(), name="feed"),
 ]

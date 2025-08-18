@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import CustomUser
+from .serializers import PostSerializer
 
 class FollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -31,3 +32,13 @@ class UnfollowUserView(generics.GenericAPIView):
 
         request.user.following.remove(user_to_unfollow)
         return Response({"detail": f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
+
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # get all users the current user is following
+        following_users = self.request.user.following.all()
+        # filter posts by authors the user follows, newest first
+        return Post.objects.filter(author__in=following_users).order_by("-created_at")
